@@ -122,6 +122,7 @@ class FanboxExtractor(Extractor):
                     text.nameext_from_url(item["originalUrl"], final_image)
                     if "extension" in item:
                         final_image["extension"] = item["extension"]
+                    images.append(final_image)
                 post["images"] = images
 
         post["date"] = text.parse_datetime(post["publishedDatetime"])
