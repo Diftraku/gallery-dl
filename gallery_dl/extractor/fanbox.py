@@ -104,6 +104,25 @@ class FanboxExtractor(Extractor):
                     }
 
                 post["content"] = "\n".join(content)
+            # Bare content directly in content_body
+            if "text" in content_body:
+                post["text"] = content_body["text"]
+            if "images" in content_body:
+                # Images in bare posts are in-order in the list
+                images = []
+                for image in content_body["images"]:
+                    # This replicates the _get_urls_from_post() functionality
+                    final_image = {
+                        "fileUrl": item["originalUrl"],
+                        "thumbnailUrl": item["thumbnailUrl"],
+                        "fileId": item.get("id"),
+                        "width": item.get("width"),
+                        "height": item.get("height"),
+                    }
+                    text.nameext_from_url(image["originalUrl"], final_image)
+                    if "extension" in item:
+                        final_image["extension"] = image["extension"]
+                post["images"] = images
 
         post["date"] = text.parse_datetime(post["publishedDatetime"])
         post["text"] = content_body.get("text") if content_body else None
