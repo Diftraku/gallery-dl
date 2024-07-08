@@ -24,7 +24,7 @@ class SubscribestarExtractor(Extractor):
     archive_fmt = "{id}"
     cookies_domain = "www.subscribestar.com"
     cookies_names = ("auth_token",)
-    cookie_names_2fa = ("two_factor_auth_token",)
+    cookies_names_2fa = ("two_factor_auth_token",)
 
     def __init__(self, match):
         tld, self.item = match.groups()
