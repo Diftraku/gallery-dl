@@ -24,6 +24,7 @@ class SubscribestarExtractor(Extractor):
     archive_fmt = "{id}"
     cookies_domain = "www.subscribestar.com"
     cookies_names = ("auth_token",)
+    cookie_names_2fa = ("two_factor_auth_token",)
 
     def __init__(self, match):
         tld, self.item = match.groups()
@@ -52,6 +53,10 @@ class SubscribestarExtractor(Extractor):
 
     def login(self):
         if self.cookies_check(self.cookies_names):
+            return
+
+        # Check for 2FA login
+        if self.cookies_check(self.cookies_names_2fa):
             return
 
         username, password = self._get_auth_info()
