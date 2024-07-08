@@ -178,6 +178,7 @@ class SubscribestarPostExtractor(SubscribestarExtractor):
 
     def _data_from_post(self, html):
         extr = text.extract_from(html)
+        media = self._media_from_post(html)
         return {
             "post_id"    : text.parse_int(extr('data-id="', '"')),
             "author_name": text.unescape(extr('href="/', '"')),
@@ -188,4 +189,5 @@ class SubscribestarPostExtractor(SubscribestarExtractor):
             "content"    : (extr(
                 '<div class="post-content', '<div class="post-uploads')
                 .partition(">")[2]),
+            "media"      : media,
         }
